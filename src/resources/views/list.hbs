@@ -1,0 +1,133 @@
+<form name="form_quick_delete" method="POST" class="container" action="list/deleteMany">
+
+  <a href="/course/bin" class="mt-2 mb-2">Thùng Rác
+    {{#if count}}
+  ({{count}})
+  {{/if}}
+  </a>
+  <div class="d-flex align-items-center mb-2">   
+    <div class="mx-3">
+    <input class="mx-1" type="checkbox" id='cb_select_All' aria-label="Checkbox for following text input">
+    <label for="cb_select_All">Select All</label>
+    
+    </div>
+    <select class="mx-3" name="action" required>
+      <option value="" id="defaut_option">--Chọn Hành Động--</option>
+      <option value="delete">Xóa</option>
+    </select>
+    <button class="btn btn-primary mx-3" type="submit" id="btn_checkbox_submit" disabled>Thực Hiện</button>
+  </div>
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th scope="col">#</th>
+      <th scope="col">Tên khóa học</th>
+      <th scope="col">Mô tả</th>
+      <th scope="col">Ngày tạo</th>
+    <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+      {{#each data}}
+    <tr>
+      <th>  <input name="select_Courses[]" type="checkbox" value="{{this._id}}"></th>
+      <th scope="row">{{sum @index 1}}</th>
+      <td scope="row">{{this.name}}</td>
+      <td>{{this.description}}</td>
+      <td>{{this.createdAt}}</td>
+       <td>
+           <a href="/course/{{this._id}}/edit">Sửa</a>
+           <a href="" data-toggle="modal" id='btn-Xoa-getid' data-target="#modal_delete" data-id="{{this._id}}">Xóa</a>
+       </td>
+    </tr>
+       {{/each}}
+  </tbody>
+  
+    
+</table>
+
+</form>
+
+
+<!-- Modal -->
+<div id="modal_delete"  class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Xóa khóa học</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn có muốn xóa khóa học này ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="button" id="btn_delete" class="btn btn-danger">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form name="form-course-delete"method="POST"></form>
+<script>
+  document.addEventListener('DOMContentLoaded',function(){
+
+    var form_delete = document.forms['form-course-delete'];
+    var btn_delete =$('#btn_delete');
+    var cboxSelectAll = $('#cb_select_All');
+    var courseItemcheckbox = $('input[name="select_Courses[]"]');
+    var btnCheckbox_Submit = $('#btn_checkbox_submit');
+    var formQuickDelete = document.forms['form_quick_delete'];
+
+
+    $('#modal_delete').on('show.bs.modal', function (event) {
+      var groupid;
+     var button = $(event.relatedTarget) // Button that triggered the modal
+    var recipient = button.data('id') 
+    btn_delete.click(function(event){
+      
+      form_delete.action = '/course/'+recipient+'/delete?_method=DELETE';
+      form_delete.submit();
+    })
+   
+  })
+   //course item check box  All
+  cboxSelectAll.change(function(){
+    var isChecked = $(this).prop('checked')
+   
+    courseItemcheckbox.prop('checked',isChecked);
+      renderButtonSubmit();
+  })
+  //course item check box 
+   courseItemcheckbox.change(function(){
+     var isCheckedAll = courseItemcheckbox.length === $('input[name="select_Courses[]"]:checked').length
+    cboxSelectAll.prop('checked',isCheckedAll);
+     renderButtonSubmit();
+   })
+
+
+  btnCheckbox_Submit.click(function(event){
+    
+    if($('#defaut_option:selected').val() != ""){
+        formQuickDelete.submit();
+  }
+
+ 
+  })
+ 
+  function renderButtonSubmit(){
+      var numCheckboxSelected =  $('input[name="select_Courses[]"]:checked').length;
+      if(numCheckboxSelected>0 ){
+        $('#btn_checkbox_submit').removeAttr('disabled');
+      }
+      else{
+        $('#btn_checkbox_submit').attr('disabled','disabled');
+      
+      }
+  }
+  })
+
+</script>

@@ -1,0 +1,18 @@
+    
+    
+  
+ 
+   <div class="css-khoahoc">
+  {{#each data}}
+<a href="/course/{{this.slug}}">
+<div class="card" style="width: 18rem;">
+  <img src="{{this.image}}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title text-dark">{{this.name}}</h5>
+    <p class="card-text text-secondary">{{this.description}}.</p>
+
+  </div>
+</div>
+</a>
+  {{/each}}
+</div>

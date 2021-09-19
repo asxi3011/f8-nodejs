@@ -1,0 +1,32 @@
+<div class="container mt-4">
+      {{#with data}}
+  <form method="POST" action="/course/{{_id}}/update?_method=PUT">
+
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Tên </label>
+    <input type="text" name="name" value="{{name}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+   
+  </div>
+   <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Mô tả</label>
+    <input type="text" name="description" value="{{description}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+   
+  </div>
+   <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">VideoId</label>
+    <input type="text" name="videoId" value="{{videoId}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+   
+  </div>
+   <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">slug</label>
+    <input type="text"  name="slug" value="{{slug}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div>
+   <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">image</label>
+    <input type="text"  name="image" value="{{image}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+  </div>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <div class="btn btn-light">Hủy</div>
+    {{/with}}
+</form>
+</div>
